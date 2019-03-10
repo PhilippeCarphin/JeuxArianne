@@ -35,8 +35,7 @@ class TestJABoard(unittest.TestCase):
         self.test_board.play_edge(((2,1),(2,2)), 1)
         self.test_board.play_edge(((2,0),(2,1)), 1)
         pm = list(self.test_board.possible_moves())
-        print(pm)
-
+        self.assertTrue(pm == [((0, 2), (1, 2)), ((1, 0), (2, 0))])
 
     def play_game(self, board=None):
         if not board:
@@ -79,23 +78,23 @@ class TestJABoard(unittest.TestCase):
     def test_get_value_empty_board(self):
         self.test_board.play_edge(((0,0),(0,1)), -1)
 
-        self.test_board.play_edge(((0,0),(1,0)), 1)
+        # self.test_board.play_edge(((0,0),(1,0)), 1)
 
-        self.test_board.play_edge(((0,1),(1,1)), -1)
+        # self.test_board.play_edge(((0,1),(1,1)), -1)
 
-        self.test_board.play_edge(((1,0),(1,1)), -1)
-        self.test_board.play_edge(((1,1),(1,2)), 1)
+        # self.test_board.play_edge(((1,0),(1,1)), -1)
+        # self.test_board.play_edge(((1,1),(1,2)), 1)
 
-        self.test_board.play_edge(((1,1),(2,1)), -1)
+        # self.test_board.play_edge(((1,1),(2,1)), -1)
 
-        self.test_board.play_edge(((0,1),(0,2)), 1)
+        # self.test_board.play_edge(((0,1),(0,2)), 1)
 
-        self.test_board.play_edge(((1,2),(2,2)), 1)
+        # self.test_board.play_edge(((1,2),(2,2)), 1)
 
-        self.test_board.play_edge(((2,1),(2,2)), 1)
-        self.test_board.play_edge(((2,0),(2,1)), 1)
-        self.test_board.play_edge(((1,0),(2,0)), 1)
-        self.test_board.play_edge(((0,2),(1,2)), 1)
+        # self.test_board.play_edge(((2,1),(2,2)), 1)
+        # self.test_board.play_edge(((2,0),(2,1)), 1)
+        # self.test_board.play_edge(((1,0),(2,0)), 1)
+        # self.test_board.play_edge(((0,2),(1,2)), 1)
         value = self.test_board.get_value()
         print(self.test_board)
         print("get_value(): ", value)

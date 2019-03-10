@@ -49,9 +49,6 @@ class JABoard:
                 and 0 <= point[1] < self.board_dimensions[1])
 
     def edge_is_legal(self, edge):
-        if not isinstance(edge, (tuple,tuple)):
-            return False
-
         if not (self.in_board(edge[0])
                 and self.in_board(edge[1])):
             return False
@@ -81,7 +78,6 @@ class JABoard:
         moves = []
         for m in self.possible_moves():
             new_marked = self.play_edge(m,1)
-            print("{}trying edge {}".format(" " * depth, m))
             moves.append((m, self.get_value(depth), 1))
             self.unplay_edge(m,1,new_marked)
 
@@ -93,7 +89,6 @@ class JABoard:
     def get_min(self, depth):
         moves = []
         for m in self.possible_moves():
-            print("{}trying edge {}".format(" " * depth, m))
             new_marked = self.play_edge(m,-1)
             moves.append((m, self.get_value(depth), -1))
             self.unplay_edge(m,-1, new_marked)

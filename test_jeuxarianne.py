@@ -23,7 +23,6 @@ class TestJABoard(unittest.TestCase):
         self.assertRaises(AssertionError, self.test_board.play_edge, ((0,0),(0,1)), 0)
 
     def test_str(self):
-        print(str(self.test_board))
         self.test_board.play_edge(((0,0),(0,1)), 0)
 
         self.test_board.play_edge(((0,0),(1,0)), 1)
@@ -39,5 +38,10 @@ class TestJABoard(unittest.TestCase):
 
         self.test_board.play_edge(((0,2),(1,2)), 0)
         self.test_board.play_edge(((1,2),(2,2)), 0)
+
+        self.test_board.play_edge(((2,1),(2,2)), 1)
+        self.test_board.play_edge(((2,0),(2,1)), 1)
+
+        self.test_board.play_edge(((1,0),(2,0)), 0)
 
         print(str(self.test_board))

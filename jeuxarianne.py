@@ -29,6 +29,35 @@ class JABoard:
 
         return True
 
+    def moves(self):
+        for i in range(self.board_dimensions[0]):
+            for J in range(self.board_dimensions[1] - 1):
+                yield self.h_edge(i,J)
+        for I in range(self.board_dimensions[0] - 1):
+            for j in range(self.board_dimensions[1]):
+                yield self.v_edge(I,j)
+
+    def possible_moves(self):
+        for m in self.moves():
+            if m not in self.edges:
+                yield m
+
+    def get_max(self, move):
+        if 0 and "no possible moves":
+            return "the score"
+        moves = []
+        for m in self.possible_moves():
+            moves.append((m, self.get_min(m)))
+
+        return 'element of moves that has the largest min'
+
+    def get_min(self, move):
+        moves = []
+        if 0 and "no possible moves":
+            return "the score"
+        for m in self.possible_moves():
+            moves.append((m, self.get_max(m)))
+        return 'element of moves that has the smallest max'
 
     def square_is_surrounded(self, square):
         I, J = square
@@ -48,7 +77,6 @@ class JABoard:
                 and edge4 in self.edges)
 
     def mark_completed_squares(self, player, last_edge_played):
-        print("last edge played", last_edge_played)
         di = last_edge_played[0][0] - last_edge_played[1][0]
         dj = last_edge_played[0][1] - last_edge_played[1][1]
         if di == 0:
@@ -56,7 +84,7 @@ class JABoard:
             i = last_edge_played[0][0]
             upper_square = (i - 1, minj)
             lower_square = (i, minj)
-            if self.square_is_surrounded(lower_square):
+            if i < self.board_dimensions[0] - 1 and self.square_is_surrounded(lower_square):
                 if not lower_square in self.squares:
                     self.squares[lower_square] = player
 

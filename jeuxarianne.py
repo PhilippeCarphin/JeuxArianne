@@ -1,4 +1,5 @@
 import itertools
+from copy import deepcopy
 
 class JABoard:
 
@@ -6,7 +7,20 @@ class JABoard:
         self.board_dimensions = board_dimensions
         self.edges = {}
         self.squares = {}
-        self.score = 0
+        self.turn = 0
+        self._score = 0
+
+    @property
+    def score(self):
+        score = 0
+        for s in self.squares:
+            square_owner = self.squares[s]
+            if square_owner == 0:
+                score += 1
+            elif square_owner == 1:
+                score -= 1
+        return score
+
 
     def in_board(self, point):
         return (0 <= point[0] < self.board_dimensions[0]
@@ -42,22 +56,35 @@ class JABoard:
             if m not in self.edges:
                 yield m
 
-    def get_max(self, move):
-        if 0 and "no possible moves":
-            return "the score"
+    def get_max(self):
         moves = []
         for m in self.possible_moves():
-            moves.append((m, self.get_min(m)))
+            board = self.try_edge(self, m, 0)
+            moves.append((m, board.get_value(), 0))
 
-        return 'element of moves that has the largest min'
+        if not moves:
+            return (None, self.score, 0)
 
-    def get_min(self, move):
+        return max(moves, key=lambda m: m[1])
+
+    def get_min(self):
         moves = []
         if 0 and "no possible moves":
             return "the score"
         for m in self.possible_moves():
-            moves.append((m, self.get_max(m)))
-        return 'element of moves that has the smallest max'
+            board = self.try_edge(m, 1)
+            moves.append((m, board.get_value(), 1))
+        if not moves:
+            return (None, self.score, 1)
+        return min(moves, key=lambda m: m[1])
+
+    def get_value(self):
+        if not self.possible_moves():
+            return self.score
+        if self.turn == 0:
+            return self.get_max()[1]
+        elif self.turn == 1:
+            return self.get_min()[1]
 
     def square_is_surrounded(self, square):
         I, J = square
@@ -112,6 +139,12 @@ class JABoard:
         assert(self.edge_is_legal(edge))
         self.edges[edge] = True
         self.mark_completed_squares(player, edge)
+        self.turn = 0 if self.turn == 1 else 1
+
+    def try_edge(self, edge, player):
+        board = deepcopy(self)
+        board.play_edge(edge, player)
+        return board
 
     def v_edge(self, I, J):
         return ((I,J),(I+1,J))

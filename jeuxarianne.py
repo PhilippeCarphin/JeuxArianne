@@ -68,7 +68,8 @@ class JABoard:
             j = last_edge_played[0][1]
             left_square = (mini, j - 1)
             right_square = (mini, j)
-            if self.square_is_surrounded(right_square):
+            if (j < self.board_dimensions[1] -1
+                    and self.square_is_surrounded(right_square)):
                 if not right_square in self.squares:
                     self.squares[right_square] = player
 
@@ -84,6 +85,12 @@ class JABoard:
         self.edges[edge] = True
         self.mark_completed_squares(player, edge)
 
+    def v_edge(self, I, J):
+        return ((I,J),(I+1,J))
+
+    def h_edge(self, I, J):
+        return ((I,J),(I, J+1))
+
     def __str__(self):
         lines = []
         def dots_line(i):
@@ -91,7 +98,8 @@ class JABoard:
             for j in range(self.board_dimensions[1]):
                 dl += "*"
                 if j < self.board_dimensions[1] - 1:
-                    if (i+j) % 2 == 0:
+                    edge = self.h_edge(i,j)
+                    if edge in self.edges:
                         dl += " - "
                     else:
                         dl += "   "
@@ -99,20 +107,20 @@ class JABoard:
 
         def squares_and_edges_line(I):
             sel = ""
-            for J in range(self.board_dimensions[1] - 1):
-                edge = ((I,J),(I,J+1))
+            for j in range(self.board_dimensions[1]):
+                edge = self.v_edge(I,j)
 
                 if edge in self.edges:
                     sel += "|"
                 else:
                     sel += " "
 
-                if (I+J) % 3 == 0:
-                    sel += "   "
-                elif (I+J) % 3 == 1:
-                    sel += " A "
-                elif (I+J) % 3 == 2:
-                    sel += " P "
+                if j < self.board_dimensions[1] - 1:
+                    square = (I,j)
+                    if square in self.squares:
+                        sel += " {} ".format(self.squares[square])
+                    else:
+                        sel += "   "
             return sel
 
 

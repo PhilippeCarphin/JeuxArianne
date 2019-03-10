@@ -97,7 +97,7 @@ class JABoard:
         return min(moves, key=lambda m: m[1])
 
     def get_value(self, depth=0):
-        if not self.possible_moves() or depth > 4:
+        if not self.possible_moves() or depth > 6:
             score = self.score
             return (None, score, 0)
         if self.turn == 0:

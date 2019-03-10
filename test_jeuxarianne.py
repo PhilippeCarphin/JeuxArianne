@@ -21,3 +21,6 @@ class TestJABoard(unittest.TestCase):
     def test_play_edge(self):
         self.test_board.play_edge(((0,0),(0,1)), 0)
         self.assertRaises(AssertionError, self.test_board.play_edge, ((0,0),(0,1)), 0)
+
+    def test_str(self):
+        print(str(self.test_board))

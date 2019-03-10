@@ -1,3 +1,4 @@
+import itertools
 
 class JABoard:
 
@@ -82,3 +83,48 @@ class JABoard:
         assert(self.edge_is_legal(edge))
         self.edges[edge] = True
         self.mark_completed_squares(player, edge)
+
+    def __str__(self):
+        lines = []
+        def dots_line(i):
+            dl = ""
+            for j in range(self.board_dimensions[1]):
+                dl += "*"
+                if j < self.board_dimensions[1] - 1:
+                    if (i+j) % 2 == 0:
+                        dl += " - "
+                    else:
+                        dl += "   "
+            return dl
+
+        def squares_and_edges_line(I):
+            sel = ""
+            for J in range(self.board_dimensions[1] - 1):
+                edge = ((I,J),(I,J+1))
+
+                if edge in self.edges:
+                    sel += "|"
+                else:
+                    sel += " "
+
+                if (I+J) % 3 == 0:
+                    sel += "   "
+                elif (I+J) % 3 == 1:
+                    sel += " A "
+                elif (I+J) % 3 == 2:
+                    sel += " P "
+            return sel
+
+
+        for I in range(self.board_dimensions[0] - 1):
+            dl = dots_line(I)
+            sel = squares_and_edges_line(I)
+
+            lines.append(dl)
+            lines.append(sel)
+
+        lines.append(dots_line(self.board_dimensions[0]-1))
+
+        return '\n'.join(lines)
+
+

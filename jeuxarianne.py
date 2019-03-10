@@ -67,15 +67,15 @@ class JABoard:
     def moves(self):
         for i in range(self.board_dimensions[0]):
             for J in range(self.board_dimensions[1] - 1):
-                yield self.h_edge(i,J)
+                yield self._h_edge(i,J)
         for I in range(self.board_dimensions[0] - 1):
             for j in range(self.board_dimensions[1]):
-                yield self.v_edge(I,j)
+                yield self._v_edge(I,j)
 
     def possible_moves(self):
-        for m in self.moves():
-            if m not in self.edges:
-                yield m
+        for n1, n2 in self.moves():
+            if not self.nodes_connected(n1, n2):
+                yield n1, n2
 
     def get_max(self, depth):
         moves = []
@@ -168,7 +168,7 @@ class JABoard:
 
 
     def play_edge(self, edge, player):
-        assert(edge not in self.edges)
+        assert not self.nodes_connected(edge[0], edge[1]), "edge = {}".format(edge)
         assert(self.edge_is_legal(edge))
         self.edges[edge] = True
         self.connect_nodes(edge[0], edge[1])

@@ -23,6 +23,21 @@ class TestJABoard(unittest.TestCase):
         self.test_board.play_edge(((0,0),(0,1)), -1)
         self.assertRaises(AssertionError, self.test_board.play_edge, ((0,0),(0,1)), -1)
 
+    def test_possible_moves(self):
+        self.test_board.play_edge(((0,0),(0,1)), -1)
+        self.test_board.play_edge(((0,0),(1,0)), 1)
+        self.test_board.play_edge(((0,1),(1,1)), -1)
+        self.test_board.play_edge(((1,0),(1,1)), -1)
+        self.test_board.play_edge(((1,1),(1,2)), 1)
+        self.test_board.play_edge(((1,1),(2,1)), -1)
+        self.test_board.play_edge(((0,1),(0,2)), 1)
+        self.test_board.play_edge(((1,2),(2,2)), 1)
+        self.test_board.play_edge(((2,1),(2,2)), 1)
+        self.test_board.play_edge(((2,0),(2,1)), 1)
+        pm = list(self.test_board.possible_moves())
+        print(pm)
+
+
     def play_game(self, board=None):
         if not board:
             board = self.test_board

@@ -7,13 +7,13 @@ class JABoard:
     def __init__(self, board_dimensions=(3,3)):
         self.board_dimensions = board_dimensions
         self._edges = np.array(self.board_dimensions)
-        self._squares = np.zeros((self.board_dimensions[0]-1, self.board_dimensions[1]-1), dtype=np.int)
+        self._squares = np.zeros((self.board_dimensions[0]-1, self.board_dimensions[1]-1), dtype=np.int8)
         self.edges = {}
         self.squares = {}
         self.turn = 0
         self._score = 0
         self._nodes = np.array(self.board_dimensions)
-        self._edges = np.zeros(self.board_dimensions + self.board_dimensions, dtype=np.int)
+        self._edges = np.zeros(self.board_dimensions + self.board_dimensions, dtype=np.int8)
 
     def connect_nodes(self, n1, n2):
         self._edges[n1[0],n1[1],n2[0], n2[1]] = 1
@@ -78,7 +78,7 @@ class JABoard:
         moves = []
         for m in self.possible_moves():
             new_marked = self.play_edge(m,1)
-            moves.append((m, self.get_value(depth), 1))
+            moves.append((m, self.get_value(depth)[1], 1))
             self.unplay_edge(m,1,new_marked)
 
         if not moves:
@@ -90,19 +90,20 @@ class JABoard:
         moves = []
         for m in self.possible_moves():
             new_marked = self.play_edge(m,-1)
-            moves.append((m, self.get_value(depth), -1))
+            moves.append((m, self.get_value(depth)[1], -1))
             self.unplay_edge(m,-1, new_marked)
         if not moves:
             return (None, self.score, 1)
         return min(moves, key=lambda m: m[1])
 
     def get_value(self, depth=0):
-        if not self.possible_moves():
-            return self.score
+        if not self.possible_moves() or depth > 4:
+            score = self.score
+            return (None, score, 0)
         if self.turn == 0:
-            return self.get_max(depth+1)[1]
+            return self.get_max(depth+1)
         elif self.turn == 1:
-            return self.get_min(depth+1)[1]
+            return self.get_min(depth+1)
 
     def square_is_surrounded(self, square):
         I, J = square

@@ -76,25 +76,32 @@ class TestJABoard(unittest.TestCase):
         # print("get_value(): ", self.test_board.get_value())
 
     def test_get_value_empty_board(self):
-        self.test_board.play_edge(((0,0),(0,1)), -1)
+        # self.test_board.play_edge(((0,0),(0,1)), -1)
+        self.test_board.play_edge(((0,1),(1,1)), -1)
 
-        # self.test_board.play_edge(((0,0),(1,0)), 1)
+        # By playing just one of these two moves and
+        # asking for the position value after, we have
+        # a one point difference unless I change the
+        # code for the max thinking depth and forget
+        # to update this comment.
+        self.test_board.play_edge(((0,0),(1,0)), 1)
+        # self.test_board.play_edge(((1,0),(2,0)), 1)
 
-        # self.test_board.play_edge(((0,1),(1,1)), -1)
+        self.test_board.play_edge(((1,0),(2,0)), -1)
+        # self.test_board.play_edge(((0,0),(0,1)), -1)
 
-        # self.test_board.play_edge(((1,0),(1,1)), -1)
+        self.test_board.play_edge(((1,0),(1,1)), 1)
         # self.test_board.play_edge(((1,1),(1,2)), 1)
 
-        # self.test_board.play_edge(((1,1),(2,1)), -1)
+        self.test_board.play_edge(((1,1),(2,1)), -1)
 
-        # self.test_board.play_edge(((0,1),(0,2)), 1)
+        self.test_board.play_edge(((0,1),(0,0)), 1)
 
-        # self.test_board.play_edge(((1,2),(2,2)), 1)
+        self.test_board.play_edge(((1,2),(2,2)), 1)
 
-        # self.test_board.play_edge(((2,1),(2,2)), 1)
-        # self.test_board.play_edge(((2,0),(2,1)), 1)
-        # self.test_board.play_edge(((1,0),(2,0)), 1)
-        # self.test_board.play_edge(((0,2),(1,2)), 1)
+        self.test_board.play_edge(((2,1),(2,2)), 1)
+        self.test_board.play_edge(((2,0),(2,1)), 1)
+        self.test_board.play_edge(((0,2),(1,2)), -1)
         value = self.test_board.get_value()
         print(self.test_board)
         print("get_value(): ", value)

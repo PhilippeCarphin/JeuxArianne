@@ -56,35 +56,35 @@ class JABoard:
             if m not in self.edges:
                 yield m
 
-    def get_max(self):
+    def get_max(self, depth):
         moves = []
         for m in self.possible_moves():
-            board = self.try_edge(self, m, 0)
-            moves.append((m, board.get_value(), 0))
+            board = self.try_edge(m, 0)
+            print("{}trying edge {}".format(" " * depth, m))
+            moves.append((m, board.get_value(depth), 0))
 
         if not moves:
             return (None, self.score, 0)
 
         return max(moves, key=lambda m: m[1])
 
-    def get_min(self):
+    def get_min(self, depth):
         moves = []
-        if 0 and "no possible moves":
-            return "the score"
         for m in self.possible_moves():
             board = self.try_edge(m, 1)
-            moves.append((m, board.get_value(), 1))
+            print("{}trying edge {}".format(" " * depth, m))
+            moves.append((m, board.get_value(depth), 1))
         if not moves:
             return (None, self.score, 1)
         return min(moves, key=lambda m: m[1])
 
-    def get_value(self):
+    def get_value(self, depth=0):
         if not self.possible_moves():
             return self.score
         if self.turn == 0:
-            return self.get_max()[1]
+            return self.get_max(depth+1)[1]
         elif self.turn == 1:
-            return self.get_min()[1]
+            return self.get_min(depth+1)[1]
 
     def square_is_surrounded(self, square):
         I, J = square
